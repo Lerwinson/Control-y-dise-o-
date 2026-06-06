@@ -1,0 +1,80 @@
+// Prisma schema for Furniture Structure Designer Pro
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  admin
+  designer
+  production
+  viewer
+}
+
+enum ProjectType {
+  bed
+  sofa
+  mattress
+  furniture
+  custom
+}
+
+model User {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  name      String
+  password  String
+  role      Role      @default(designer)
+  createdAt DateTime  @default(now())
+  projects  Project[]
+}
+
+model Project {
+  id        String      @id @default(cuid())
+  name      String
+  type      ProjectType @default(custom)
+  status    String      @default("active")
+  stage     Int         @default(0)
+  currency  String      @default("USD")
+  margin    Float       @default(35)
+  shapes2d  Json        @default("[]")
+  ownerId   String
+  owner     User        @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  parts     Part[]
+  versions  Version[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model Part {
+  id        String   @id @default(cuid())
+  code      String
+  name      String
+  category  String
+  material  String
+  length    Float
+  width     Float
+  thickness Float
+  qty       Int      @default(1)
+  weight    Float?
+  costOverride Float?
+  notes     String?
+  color     String   @default("#c98a4b")
+  posX      Float?
+  posY      Float?
+  posZ      Float?
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Version {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  snapshot  Json
+  createdAt DateTime @default(now())
+}
