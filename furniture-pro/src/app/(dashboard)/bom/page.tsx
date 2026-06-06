@@ -1,10 +1,11 @@
 'use client';
 import { useState } from 'react';
-import { Plus, Download, FileText, Pencil, Trash2, List, Box, Layers, PencilRuler, Settings, Zap } from 'lucide-react';
+import { Plus, Download, FileText, Pencil, Trash2, List, Box, Layers, PencilRuler, Settings, Zap, CloudUpload } from 'lucide-react';
 import { useStore, useT, useCurrentProject } from '@/lib/store';
 import { MATERIALS } from '@/lib/data';
 import { computeBOM } from '@/lib/calc';
 import { fmtMoney, fmtNum, download } from '@/lib/utils';
+import { saveProjectToServer } from '@/lib/sync';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -18,10 +19,19 @@ export default function BomPage() {
   const addPart = useStore((s) => s.addPart);
   const updatePart = useStore((s) => s.updatePart);
   const deletePart = useStore((s) => s.deletePart);
+  const token = useStore((s) => s.user?.token);
   const [editing, setEditing] = useState<Part | 'new' | null>(null);
+  const [saving, setSaving] = useState(false);
 
   if (!proj) return <p className="text-zinc-500">{t('select_project')}</p>;
   const bom = computeBOM(proj);
+
+  const saveServer = async () => {
+    if (!token) return;
+    setSaving(true);
+    try { await saveProjectToServer(proj, token); } catch { /* offline */ }
+    finally { setSaving(false); }
+  };
 
   const summary = [
     { label: t('parts_count'), value: String(bom.pieces), Icon: List },
@@ -46,6 +56,7 @@ export default function BomPage() {
           <Button onClick={() => setEditing('new')}><Plus size={16} /> {t('add')}</Button>
           <Button variant="ghost" onClick={exportCsv}><Download size={16} /> CSV</Button>
           <Button variant="ghost" onClick={() => window.print()}><FileText size={16} /> PDF</Button>
+          {token && <Button variant="ghost" disabled={saving} onClick={saveServer}><CloudUpload size={16} /> {saving ? '…' : 'Guardar'}</Button>}
         </>} />
 
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 mb-5">

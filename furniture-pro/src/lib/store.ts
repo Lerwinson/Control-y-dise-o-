@@ -19,7 +19,10 @@ interface AppState {
   setLang: (l: Lang) => void;
   // session
   login: (email: string, name?: string) => void;
+  setSession: (user: UserInfo) => void;
   logout: () => void;
+  // server sync
+  replaceProjects: (projects: Project[]) => void;
   // settings
   updateSettings: (patch: Partial<Settings>) => void;
   // projects
@@ -72,7 +75,13 @@ export const useStore = create<AppState>()(
           role: 'admin', avatar: (name || email)[0].toUpperCase(),
         },
       }),
+      setSession: (user) => set({ user }),
       logout: () => set({ user: null }),
+
+      replaceProjects: (projects) => set((s) => ({
+        projects,
+        currentProjectId: projects.find((p) => p.id === s.currentProjectId) ? s.currentProjectId : (projects[0]?.id || null),
+      })),
 
       updateSettings: (patch) => set((s) => ({ settings: { ...s.settings, ...patch } })),
 

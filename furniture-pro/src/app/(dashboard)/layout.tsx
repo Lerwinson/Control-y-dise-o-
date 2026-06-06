@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { Topbar } from '@/components/layout/Topbar';
 import { Brandbar } from '@/components/layout/Brandbar';
+import { SyncProvider } from '@/components/SyncProvider';
 import { useStore } from '@/lib/store';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -25,6 +26,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   return (
     <div className="h-screen w-screen flex flex-col">
+      <SyncProvider />
       <Topbar onToggleSidebar={() => setOpen((v) => !v)} />
       <div className="flex flex-1 min-h-0">
         <Sidebar open={open} />

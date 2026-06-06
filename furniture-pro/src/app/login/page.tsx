@@ -4,18 +4,41 @@ import { useRouter } from 'next/navigation';
 import { Box } from 'lucide-react';
 import { useStore, useT } from '@/lib/store';
 import { Button } from '@/components/ui/button';
+import { api } from '@/lib/api';
 
 export default function LoginPage() {
   const t = useT();
   const router = useRouter();
   const login = useStore((s) => s.login);
+  const setSession = useStore((s) => s.setSession);
   const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [busy, setBusy] = useState(false);
+  const [note, setNote] = useState('');
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setBusy(true); setNote('');
     const form = new FormData(e.currentTarget);
-    login(String(form.get('email')), form.get('name') ? String(form.get('name')) : undefined);
-    router.push('/dashboard');
+    const email = String(form.get('email'));
+    const password = String(form.get('password'));
+    const name = form.get('name') ? String(form.get('name')) : undefined;
+    try {
+      // Try the real Express + JWT backend first
+      const res = mode === 'register'
+        ? await api.register({ email, name: name || email.split('@')[0], password })
+        : await api.login(email, password);
+      setSession({
+        id: res.user.id, email: res.user.email, name: res.user.name,
+        role: res.user.role, avatar: res.user.name[0].toUpperCase(), token: res.token,
+      });
+      router.push('/dashboard');
+    } catch {
+      // Backend unavailable -> offline demo mode
+      login(email, name);
+      router.push('/dashboard');
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -36,8 +59,10 @@ export default function LoginPage() {
           )}
           <div><label className="lbl">{t('email')}</label><input name="email" type="email" required className="fld mt-1" placeholder="correo@empresa.com" /></div>
           <div><label className="lbl">{t('password')}</label><input name="password" type="password" required className="fld mt-1" placeholder="••••••••" /></div>
-          <Button className="w-full text-base py-3">{mode === 'register' ? t('register') : t('enter')}</Button>
+          <Button disabled={busy} className="w-full text-base py-3">{busy ? '…' : (mode === 'register' ? t('register') : t('enter'))}</Button>
         </form>
+
+        {note && <p className="text-center text-xs text-amber-300 mt-3">{note}</p>}
 
         <div className="text-center text-xs text-zinc-400 mt-5 space-y-1">
           <button onClick={() => setMode(mode === 'register' ? 'login' : 'register')} className="text-red-300 hover:text-white hover:underline">

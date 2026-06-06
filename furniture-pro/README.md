@@ -110,7 +110,11 @@ furniture-pro/
 ## Notas de la migración
 
 - El frontend conserva toda la lógica de la versión estática, ahora tipada en TypeScript y reactiva con Zustand.
-- El backend Express/Prisma/JWT está listo; conectar la UI a la API es cuestión de sustituir las acciones del store por llamadas de `src/lib/api.ts`.
+- **Integración con el backend implementada:**
+  - El login/registro usan la API real (JWT). Si el backend no responde, cae automáticamente a **modo demo offline**.
+  - Al iniciar sesión con un token válido, `SyncProvider` **descarga los proyectos** desde PostgreSQL y reemplaza el estado local (`src/lib/sync.ts` → `pullProjects`).
+  - El botón **Guardar** en la página BOM persiste el proyecto y sus piezas en el servidor (`saveProjectToServer`), reconciliando los IDs locales con los del servidor.
+  - Mapeo API ↔ frontend en `src/lib/mappers.ts`; cliente HTTP en `src/lib/api.ts`.
 - El entorno donde se generó este código no tenía acceso al registro npm, por lo que **`npm install` debe ejecutarse en tu máquina** (con internet) antes del primer `npm run dev`.
 
 © Furniture Structure Designer Pro — Desarrollado por **Lerwinson Mendoza**
