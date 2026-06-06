@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Furniture Structure Designer Pro</title>
+  <meta name="description" content="Diseño técnico industrial de muebles, sofás, camas y estructuras de madera en 2D y 3D." />
+
+  <!-- Tailwind (Play CDN: runs entirely in your browser) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#000000',
+            blood: '#FF0000',
+            darkblood: '#8B0000',
+            panel: 'rgba(20,2,2,0.55)',
+          },
+          fontFamily: {
+            display: ['Orbitron', 'system-ui', 'sans-serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            neon: '0 0 18px rgba(255,0,0,0.55), 0 0 40px rgba(139,0,0,0.35)',
+          },
+        },
+      },
+    };
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+
+  <!-- Three.js as ES module (loaded by your browser from CDN) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body class="bg-ink text-zinc-100 font-sans antialiased overflow-hidden">
+
+  <!-- Animated iridescent background -->
+  <div id="bg-aurora" class="fixed inset-0 -z-10"></div>
+  <div id="bg-grid" class="fixed inset-0 -z-10 opacity-[0.07]"></div>
+
+  <!-- AUTH SCREEN -->
+  <div id="auth-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4"></div>
+
+  <!-- APP SHELL -->
+  <div id="app" class="hidden h-screen w-screen flex flex-col">
+    <header id="topbar"></header>
+    <div class="flex flex-1 min-h-0">
+      <aside id="sidebar" class="shrink-0"></aside>
+      <main id="view" class="flex-1 min-w-0 overflow-y-auto custom-scroll"></main>
+    </div>
+    <footer id="brandbar"></footer>
+  </div>
+
+  <!-- Toasts -->
+  <div id="toast-root" class="fixed bottom-5 right-5 z-[60] flex flex-col gap-2"></div>
+  <!-- Modal root -->
+  <div id="modal-root" class="fixed inset-0 z-[55] hidden items-center justify-center p-4"></div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

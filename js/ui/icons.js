@@ -1,0 +1,46 @@
+// Inline SVG icon set (stroke = currentColor)
+const S = (p) => `<svg class="nav-ico" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+export const icon = (name, size = 20) => {
+  const m = ICONS[name] || ICONS.dot;
+  return m.replace('width="20" height="20"', `width="${size}" height="${size}"`);
+};
+const ICONS = {
+  home: S('<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/>'),
+  folder: S('<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>'),
+  design: S('<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/>'),
+  sofa: S('<path d="M4 11V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 13a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4H2z"/><path d="M5 17v2M19 17v2"/>'),
+  bed: S('<path d="M2 8v12M2 12h20v8M22 12V8"/><path d="M6 12V9a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v3"/>'),
+  mattress: S('<rect x="2" y="7" width="20" height="10" rx="3"/><path d="M6 7v10M10 7v10M14 7v10M18 7v10"/>'),
+  furniture: S('<rect x="3" y="4" width="18" height="13" rx="1"/><path d="M3 17v3M21 17v3M3 10h18"/>'),
+  library: S('<path d="M4 19V5a2 2 0 0 1 2-2h2v18H6a2 2 0 0 1-2-2z"/><path d="M10 21V3h3v18z"/><path d="M16 3l4 1-3 17-4-1z"/>'),
+  pen: S('<path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18z"/>'),
+  cube: S('<path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 2v20M3 7l9 5 9-5"/>'),
+  explode: S('<path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><rect x="9" y="9" width="6" height="6" rx="1"/>'),
+  list: S('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>'),
+  money: S('<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/>'),
+  factory: S('<path d="M2 20h20M4 20V10l5 3V10l5 3V8l5 3v9"/><path d="M7 20v-4M12 20v-4M17 20v-4"/>'),
+  report: S('<path d="M4 3h16v18H4z"/><path d="M8 12v5M12 8v9M16 14v3"/>'),
+  ai: S('<rect x="4" y="5" width="16" height="14" rx="3"/><path d="M9 9h.01M15 9h.01M9 14h6M12 2v3"/>'),
+  settings: S('<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.6 2 2 0 0 1 3 9.6h.1A1.6 1.6 0 0 0 4.6 7l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10 4.6V4a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7H21a2 2 0 0 1 0 4z"/>'),
+  search: S('<circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/>'),
+  bell: S('<path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/>'),
+  globe: S('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/>'),
+  user: S('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>'),
+  plus: S('<path d="M12 5v14M5 12h14"/>'),
+  trash: S('<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>'),
+  copy: S('<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>'),
+  download: S('<path d="M12 3v12M7 11l5 4 5-4M5 21h14"/>'),
+  check: S('<path d="M20 6L9 17l-5-5"/>'),
+  x: S('<path d="M18 6L6 18M6 6l12 12"/>'),
+  chevron: S('<path d="M9 6l6 6-6 6"/>'),
+  menu: S('<path d="M3 6h18M3 12h18M3 18h18"/>'),
+  bolt: S('<path d="M13 2L3 14h7l-1 8 10-12h-7z"/>'),
+  ruler: S('<path d="M3 7l4-4 14 14-4 4z"/><path d="M7 7l2 2M11 5l2 2M9 11l2 2M13 9l2 2"/>'),
+  layers: S('<path d="M12 2l9 5-9 5-9-5z"/><path d="M3 12l9 5 9-5M3 17l9 5 9-5"/>'),
+  grid: S('<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>'),
+  rotate: S('<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/>'),
+  eye: S('<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'),
+  dot: S('<circle cx="12" cy="12" r="4"/>'),
+  spark: S('<path d="M12 3v6M12 15v6M3 12h6M15 12h6"/>'),
+  shield: S('<path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z"/>'),
+};
